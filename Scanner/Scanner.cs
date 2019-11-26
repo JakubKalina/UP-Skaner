@@ -42,8 +42,26 @@ namespace Scanner
 
         /// <summary>
         /// Tryb skanowania
+        /// 1 - RGB
+        /// 2 - Grey
+        /// 4 - BW
         /// </summary>
         private int colorMode;
+
+        /// <summary>
+        /// Jasność skanowanego dokumentu
+        /// </summary>
+        private int brightness;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private int documentHeight;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private int documentWidth;
 
         /// <summary>
         /// Konstruktor
@@ -66,14 +84,10 @@ namespace Scanner
         /// <param name="e"></param>
         private void buttonCheckForAvailableScanners_Click(object sender, EventArgs e)
         {
-
             for (int i = 1; i <= deviceManager.DeviceInfos.Count; i++)
             {
-                var devices = deviceManager.DeviceInfos[i];
-
                 if (deviceManager.DeviceInfos[i].Type == WiaDeviceType.ScannerDeviceType)
                 {
-                    var device = deviceManager.DeviceInfos[i];
                     comboBoxAvailableScanners.Items.Add(deviceManager.DeviceInfos[i].Properties["Name"].get_Value());
                     firstScannerAvailable = deviceManager.DeviceInfos[i];
                 }
@@ -94,8 +108,19 @@ namespace Scanner
             }
             else
             {
-                trackBarScanningContrast.Value = contrast;
-                trackBarScanningContrast.Update();
+                try
+                {
+                    trackBarScanningContrast.Value = contrast;
+                    trackBarScanningContrast.Update();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Wprowadzono wartość poza zakresem, spróbuj ponownie!");
+                    contrast = 0;
+                    trackBarScanningContrast.Value = contrast;
+                    trackBarScanningContrast.Update();
+                    textBoxScanningContrast.Text = contrast.ToString();
+                }
             }
         }
 
@@ -112,8 +137,19 @@ namespace Scanner
             }
             else
             {
-                trackBarSetScanningResolution.Value = resolution;
-                trackBarSetScanningResolution.Update();
+                try
+                {
+                    trackBarSetScanningResolution.Value = resolution;
+                    trackBarSetScanningResolution.Update();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Wprowadzono wartość poza zakresem, spróbuj ponownie!");
+                    resolution = 0;
+                    trackBarSetScanningResolution.Value = resolution;
+                    trackBarSetScanningResolution.Update();
+                    textBoxScanningResolution.Text = resolution.ToString();
+                }
             }
         }
 
@@ -205,8 +241,11 @@ namespace Scanner
         /// <param name="e"></param>
         private void buttonStartScanning_Click(object sender, EventArgs e)
         {
-           // firstScannerAvailable = deviceManager.Devices.GetDevice(chosenDeviceId);
+            var device = deviceManager.DeviceInfos[chosenDeviceId].Connect();
 
+            var scannerItem = device.Items[1];
+
+            AdjustScannerSettings(scannerItem, resolution, 0, 0, documentWidth, documentHeight, brightness, contrast, colorMode);
         }
 
 
@@ -217,7 +256,149 @@ namespace Scanner
         /// <param name="e"></param>
         private void comboBoxAvailableScanners_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chosenDeviceId = comboBoxAvailableScanners.SelectedIndex;
+            chosenDeviceId = comboBoxAvailableScanners.SelectedIndex + 1;
+        }
+
+        /// <summary>
+        /// Zmiana trybu skanowania
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void comboBoxScanningMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string chosenScanningMode = comboBoxScanningMode.Text;
+            if (chosenScanningMode.Equals("Kolorowe")) colorMode = 1;
+            if (chosenScanningMode.Equals("Czarno białe")) colorMode = 2;
+            if (chosenScanningMode.Equals("Szare")) colorMode = 4;
+            
+        }
+
+        /// <summary>
+        /// Zmiana szerokości skanu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxScanningWidth_TextChanged(object sender, EventArgs e)
+        {
+            if (!Int32.TryParse(textBoxScanningWidth.Text, out documentWidth))
+            {
+                MessageBox.Show("Wprowadzono nieprawidłową szerokość, spróbuj ponownie!");
+            }
+            else
+            {
+                try
+                {
+                    trackBarScanningWidth.Value = documentWidth;
+                    trackBarScanningWidth.Update();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Wprowadzono wartość poza zakresem, spróbuj ponownie!");
+                    documentWidth = 0;
+                    trackBarScanningWidth.Value = documentWidth;
+                    trackBarScanningWidth.Update();
+                    textBoxScanningWidth.Text = documentWidth.ToString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Zmiana wysokości skanu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxScanningHeight_TextChanged(object sender, EventArgs e)
+        {
+            if (!Int32.TryParse(textBoxScanningHeight.Text, out documentHeight))
+            {
+                MessageBox.Show("Wprowadzono nieprawidłową wysokość, spróbuj ponownie!");
+            }
+            else
+            {
+                try
+                {
+                    trackBarScanningHeight.Value = documentHeight;
+                    trackBarScanningHeight.Update();
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Wprowadzono wartość poza zakresem, spróbuj ponownie!");
+                    documentHeight = 0;
+                    trackBarScanningHeight.Value = documentHeight;
+                    trackBarScanningHeight.Update();
+                    textBoxScanningHeight.Text = documentHeight.ToString();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Zmiana szerokości skanu suwakiem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBarScanningWidth_Scroll(object sender, EventArgs e)
+        {
+            documentWidth = trackBarScanningWidth.Value;
+            textBoxScanningWidth.Text = documentWidth.ToString();
+            textBoxScanningWidth.Update();
+        }
+
+        /// <summary>
+        /// Zmiana wysokości skanu suwakiem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBarScanningHeight_Scroll(object sender, EventArgs e)
+        {
+            documentHeight = trackBarScanningHeight.Value;
+            textBoxScanningHeight.Text = documentHeight.ToString();
+            textBoxScanningHeight.Update();
+        }
+
+        /// <summary>
+        /// Zmiana jasności skanu suwakiem
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void trackBarScanningBrightness_Scroll(object sender, EventArgs e)
+        {
+            brightness = trackBarScanningBrightness.Value;
+            textBoxScanningBrightness.Text = brightness.ToString();
+            textBoxScanningBrightness.Update();
+        }
+
+        /// <summary>
+        /// Zmiana jasności skanu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void textBoxScanningBrightness_TextChanged(object sender, EventArgs e)
+        {
+            if (!Int32.TryParse(textBoxScanningBrightness.Text, out brightness))
+            {
+                MessageBox.Show("Wprowadzono nieprawidłową jasność, spróbuj ponownie!");
+            }
+            else
+            {
+                try
+                {
+                    trackBarScanningBrightness.Value = brightness;
+                    trackBarScanningBrightness.Update();
+                }
+                catch(Exception)
+                {
+                    MessageBox.Show("Wprowadzono wartość poza zakresem, spróbuj ponownie!");
+                    brightness = 0;
+                    trackBarScanningBrightness.Value = brightness;
+                    trackBarScanningBrightness.Update();
+                    textBoxScanningBrightness.Text = brightness.ToString();
+                }
+            }
+        }
+
+        private void Scanner_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -13,3 +13,18 @@ C:\Users\lab\Desktop\Scaner_25_11\Scanner\Scanner\bin\Debug\WiaDotNet.dll
 C:\Users\lab\Desktop\Scaner_25_11\Scanner\Scanner\bin\Debug\WiaDotNet.pdb
 C:\Users\lab\Desktop\Scaner_25_11\Scanner\Scanner\obj\Debug\Interop.WIA.dll
 C:\Users\lab\Desktop\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csproj.ResolveComReference.cache
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\bin\Debug\Scanner.exe.config
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\bin\Debug\Scanner.exe
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\bin\Debug\Scanner.pdb
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\bin\Debug\WiaDotNet.dll
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\bin\Debug\WiaDotNet.pdb
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csprojAssemblyReference.cache
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Interop.WIA.dll
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csproj.ResolveComReference.cache
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.Properties.Resources.resources
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.Scanner.resources
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csproj.GenerateResource.cache
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csproj.CoreCompileInputs.cache
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.csproj.CopyComplete
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.exe
+E:\Jakub\Documents\PWR\Urządzenia Peryferyjne L\Scaner_25_11\Scanner\Scanner\obj\Debug\Scanner.pdb
