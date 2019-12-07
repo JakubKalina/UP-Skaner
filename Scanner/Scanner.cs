@@ -18,12 +18,22 @@ namespace Scanner
         /// <summary>
         /// Menager urządzeń
         /// </summary>
-        DeviceManager deviceManager = new DeviceManager();
+        private DeviceManager deviceManager = new DeviceManager();
 
         /// <summary>
         /// Podłączone urządzenie
         /// </summary>
         private DeviceInfo firstScannerAvailable;
+
+        /// <summary>
+        /// Zeskanowany dokument
+        /// </summary>
+        private ImageFile scannedDocument;
+
+        /// <summary>
+        /// Ścieżka do zapisania zeskanowanego pliku
+        /// </summary>
+        private string filePath;
 
         /// <summary>
         /// Kontrast
@@ -54,12 +64,12 @@ namespace Scanner
         private int brightness;
 
         /// <summary>
-        /// 
+        /// Wysokość dokumentu
         /// </summary>
         private int documentHeight;
 
         /// <summary>
-        /// 
+        /// Szerokość dokumentu
         /// </summary>
         private int documentWidth;
 
@@ -92,7 +102,6 @@ namespace Scanner
                     firstScannerAvailable = deviceManager.DeviceInfos[i];
                 }
             }
-
         }
 
         /// <summary>
@@ -153,14 +162,6 @@ namespace Scanner
             }
         }
 
-        /// <summary>
-        /// Otwarcie okna z ustawieniami skanera dostępnych z zewnętrznaj biblioteki
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void buttonSetScannerOptions_Click(object sender, EventArgs e)
-        {
-        }
 
         /// <summary>
         /// Zmiana kontrastu suwakiem
@@ -187,19 +188,18 @@ namespace Scanner
         }
 
 
-
         /// <summary>
-        /// Adjusts the settings of the scanner with the providen parameters.
+        /// Dostosowanie ustawień skanera bazując na danych ustawionych przez użytkownika
         /// </summary>
-        /// <param name="scannnerItem">Scanner Item</param>
-        /// <param name="scanResolutionDPI">Provide the DPI resolution that should be used e.g 150</param>
+        /// <param name="scannnerItem"></param>
+        /// <param name="scanResolutionDPI"></param>
         /// <param name="scanStartLeftPixel"></param>
         /// <param name="scanStartTopPixel"></param>
         /// <param name="scanWidthPixels"></param>
         /// <param name="scanHeightPixels"></param>
         /// <param name="brightnessPercents"></param>
-        /// <param name="contrastPercents">Modify the contrast percent</param>
-        /// <param name="colorMode">Set the color mode</param>
+        /// <param name="contrastPercents"></param>
+        /// <param name="colorMode"></param>
         private static void AdjustScannerSettings(IItem scannnerItem, int scanResolutionDPI, int scanStartLeftPixel, int scanStartTopPixel, int scanWidthPixels, int scanHeightPixels, int brightnessPercents, int contrastPercents, int colorMode)
         {
             const string WIA_SCAN_COLOR_MODE = "6146";
@@ -223,7 +223,7 @@ namespace Scanner
         }
 
         /// <summary>
-        /// Modify a WIA property
+        /// Funkcja umożliwiająca modyfikację property z biblioteki WIA
         /// </summary>
         /// <param name="properties"></param>
         /// <param name="propName"></param>
@@ -241,11 +241,42 @@ namespace Scanner
         /// <param name="e"></param>
         private void buttonStartScanning_Click(object sender, EventArgs e)
         {
-            var device = deviceManager.DeviceInfos[chosenDeviceId].Connect();
+            try
+            {
+                // Połączenie z wybranym skanerem
+                var connectedDevice = firstScannerAvailable.Connect();
 
-            var scannerItem = device.Items[1];
+                // Wybranie obiektu skanowania
+                var scannerItem = connectedDevice.Items[1];
 
-            AdjustScannerSettings(scannerItem, resolution, 0, 0, documentWidth, documentHeight, brightness, contrast, colorMode);
+                // Ustawienie opcji skanera
+                AdjustScannerSettings(scannerItem, resolution, 0, 0, documentWidth, documentHeight, brightness, contrast, colorMode);
+
+                // Wykonanie skanowania
+                scannedDocument = (ImageFile)scannerItem.Transfer("{B96B3CAE-0728-11D3-9D7B-0000F81EF32E}");
+
+
+                filePath += "\\scan.jpeg";
+
+                // Sprawdzenie czy ścieżka jest wolna
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                // Zapis do pliku
+                scannedDocument.SaveFile(filePath);
+
+                MessageBox.Show("Zeskanowany dokument został zapisany do pliku");
+
+
+                // Wyświetlenie zeskanowanego dokumentu w formie
+                pictureBoxScannedDocument.ImageLocation = filePath;
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Wystąpił błąd podczas skanowania, upewnij się że odpowiedni skaner jest wybrany oraz podłączony");
+            }
         }
 
 
@@ -257,6 +288,7 @@ namespace Scanner
         private void comboBoxAvailableScanners_SelectedIndexChanged(object sender, EventArgs e)
         {
             chosenDeviceId = comboBoxAvailableScanners.SelectedIndex + 1;
+            firstScannerAvailable = deviceManager.DeviceInfos[chosenDeviceId];
         }
 
         /// <summary>
@@ -399,6 +431,24 @@ namespace Scanner
         private void Scanner_Load(object sender, EventArgs e)
         {
 
+        }
+
+        /// <summary>
+        /// Wybór ścieżki do zapisu skanowanego dokumentu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttonSelectFileDirectory_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    filePath = fbd.SelectedPath;
+                }
+            }
         }
     }
 }

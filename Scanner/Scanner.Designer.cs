@@ -33,7 +33,6 @@
             this.buttonCheckForAvailableScanners = new System.Windows.Forms.Button();
             this.buttonStartScanning = new System.Windows.Forms.Button();
             this.buttonSelectFileDirectory = new System.Windows.Forms.Button();
-            this.buttonSetScannerOptions = new System.Windows.Forms.Button();
             this.labelScanningMode = new System.Windows.Forms.Label();
             this.labelScanningContrast = new System.Windows.Forms.Label();
             this.labelResolution = new System.Windows.Forms.Label();
@@ -115,19 +114,7 @@
             this.buttonSelectFileDirectory.TabIndex = 4;
             this.buttonSelectFileDirectory.Text = "Zapisz jako";
             this.buttonSelectFileDirectory.UseVisualStyleBackColor = true;
-            // 
-            // buttonSetScannerOptions
-            // 
-            this.buttonSetScannerOptions.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.buttonSetScannerOptions.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.buttonSetScannerOptions.Location = new System.Drawing.Point(440, 10);
-            this.buttonSetScannerOptions.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.buttonSetScannerOptions.Name = "buttonSetScannerOptions";
-            this.buttonSetScannerOptions.Size = new System.Drawing.Size(268, 31);
-            this.buttonSetScannerOptions.TabIndex = 6;
-            this.buttonSetScannerOptions.Text = "Ustawienia skanera";
-            this.buttonSetScannerOptions.UseVisualStyleBackColor = true;
-            this.buttonSetScannerOptions.Click += new System.EventHandler(this.buttonSetScannerOptions_Click);
+            this.buttonSelectFileDirectory.Click += new System.EventHandler(this.buttonSelectFileDirectory_Click);
             // 
             // labelScanningMode
             // 
@@ -320,7 +307,6 @@
             this.Controls.Add(this.labelResolution);
             this.Controls.Add(this.labelScanningContrast);
             this.Controls.Add(this.labelScanningMode);
-            this.Controls.Add(this.buttonSetScannerOptions);
             this.Controls.Add(this.buttonSelectFileDirectory);
             this.Controls.Add(this.buttonStartScanning);
             this.Controls.Add(this.buttonCheckForAvailableScanners);
@@ -348,7 +334,6 @@
         private System.Windows.Forms.Button buttonCheckForAvailableScanners;
         private System.Windows.Forms.Button buttonStartScanning;
         private System.Windows.Forms.Button buttonSelectFileDirectory;
-        private System.Windows.Forms.Button buttonSetScannerOptions;
         private System.Windows.Forms.Label labelScanningMode;
         private System.Windows.Forms.Label labelScanningContrast;
         private System.Windows.Forms.Label labelResolution;
