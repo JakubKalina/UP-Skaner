@@ -230,6 +230,7 @@
             // 
             this.trackBarScanningWidth.LargeChange = 1;
             this.trackBarScanningWidth.Location = new System.Drawing.Point(472, 344);
+            this.trackBarScanningWidth.Maximum = 2000;
             this.trackBarScanningWidth.Name = "trackBarScanningWidth";
             this.trackBarScanningWidth.Size = new System.Drawing.Size(322, 56);
             this.trackBarScanningWidth.TabIndex = 23;
@@ -259,6 +260,7 @@
             this.trackBarScanningHeight.LargeChange = 1;
             this.trackBarScanningHeight.Location = new System.Drawing.Point(472, 469);
             this.trackBarScanningHeight.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.trackBarScanningHeight.Maximum = 2000;
             this.trackBarScanningHeight.Name = "trackBarScanningHeight";
             this.trackBarScanningHeight.Size = new System.Drawing.Size(325, 56);
             this.trackBarScanningHeight.TabIndex = 20;
